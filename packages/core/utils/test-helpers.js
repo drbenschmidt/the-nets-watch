@@ -6,7 +6,7 @@ const doesNotThrow = (fn) => {
   try {
     fn();
     return true;
-  } catch {
+  } catch (e) {
     return false;
   }
 };
