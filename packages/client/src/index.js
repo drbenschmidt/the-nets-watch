@@ -1,3 +1,4 @@
+const argv = require('yargs').argv;
 const Ping = require('./modules/commands/ping');
 const TraceRoute = require('./modules/commands/traceroute');
 

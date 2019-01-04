@@ -36,5 +36,38 @@ describe('Ping', () => {
       
       assert.ok(promise instanceof Promise);
     });
+
+    it('should return successful result of session.pingHost()', () => {
+      const ping = new Ping('1.1.1.1');
+      sandbox.stub(ping, 'getSession')
+        .returns({
+          pingHost: (target, cb) => {
+            cb(null, target, 100, 130);
+          },
+          close: () => null
+        });
+      
+      return ping.execute()
+        .then((resp) => {
+          assert.ok(resp.ms === 30);
+        });
+    });
+
+    it('should return erroneous result of session.pingHost()', () => {
+      const ping = new Ping('1.1.1.1');
+      sandbox.stub(ping, 'getSession')
+        .returns({
+          pingHost: (target, cb) => {
+            cb('error', target, 100, 130);
+          },
+          close: () => null
+        });
+      
+      return ping.execute()
+        .catch((resp) => {
+          assert.ok(resp.error === 'error');
+          assert.ok(resp.target === '1.1.1.1');
+        });
+    });
   });
 });

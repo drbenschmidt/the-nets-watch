@@ -11,8 +11,17 @@ const defaultOptions = {
 };
 
 module.exports = class TraceRoute {
-  constructor(target) {
+  constructor(target, options = {}) {
+    this.options = _.defaults(options, defaultOptions);
     this.target = target;
+
+    if (this.options.networkProtocol === ping.NetworkProtocol.IPv4) {
+      validate.string.isNetworkAddress('ipv4', target);
+    }
+
+    if (this.options.networkProtocol === ping.NetworkProtocol.IPv6) {
+      validate.string.isNetworkAddress('ipv6', target);
+    }
   }
 
   async execute() {

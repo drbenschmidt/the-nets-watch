@@ -34,7 +34,7 @@ module.exports = class Ping {
     return ping.createSession(this.options);
   }
 
-  execute() {
+  async execute() {
     return new Promise((res, rej) => {
       const session = this.getSession();
 
